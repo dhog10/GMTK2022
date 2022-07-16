@@ -28,6 +28,9 @@ public class DiceCharacter : MonoBehaviour
     [SerializeField]
     private GameObject[] _footstepPrefabs;
 
+    [SerializeField]
+    private AudioSource _footstepSoundLoop;
+
     private Vector3 _characterLocalpos;
     private Vector3 _prevPos;
     private float _bobTime;
@@ -93,6 +96,17 @@ public class DiceCharacter : MonoBehaviour
         if (Time.time - _lastFootstep >= footstepInterval)
         {
             this.Footstep();
+        }
+
+        if (_footstepSoundLoop != null)
+        {
+            if (!_footstepSoundLoop.isPlaying)
+            {
+                _footstepSoundLoop.loop = true;
+                _footstepSoundLoop.Play();
+            }
+
+            _footstepSoundLoop.volume = speedP;
         }
     }
 
