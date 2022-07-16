@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterControl : MonoBehaviour
+public class CharacterControl : DiceCharacter
 {
     [SerializeField]
     private List<DiceGun> _guns = new List<DiceGun>();
@@ -35,44 +35,16 @@ public class CharacterControl : MonoBehaviour
     private float _cameraDistance;
 
     [SerializeField]
-    private Vector2 _bobAmount = new Vector2(0.1f, 0.15f);
-
-    [SerializeField]
-    private Vector2 _bobSpeed = new Vector2(1f, 30f);
-
-    [SerializeField]
-    private Vector2 _rotationBobAmount = new Vector2(5f, 14f);
-
-    [SerializeField]
-    private Vector2 _rotationBobSpeed = new Vector2(1.3f, 20f);
-
-    [SerializeField]
-    private float _velocityRotate = 0.5f;
-
-    [SerializeField]
-    private GameObject _visualObject;
-
-    [SerializeField]
-    private GameObject _visualCharacter;
-
-    [SerializeField]
     private GameObject _gunsObject;
 
     private float _currentCameraYaw;
     private Rigidbody _rb;
     private Vector3 _currentVelocity;
-    private Vector3 _characterLocalpos;
-    private float _bobTime;
-    private float _rotationBobTime;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        var rnd = Random.Range(0f, 20f);
-        _bobTime += rnd;
-        _rotationBobTime += rnd;
-
-        _characterLocalpos = _visualCharacter.transform.localPosition;
+        base.Start();
 
         _rb = this.GetComponent<Rigidbody>();
 
@@ -96,8 +68,8 @@ public class CharacterControl : MonoBehaviour
 
     public float CameraYaw { get; set; }
 
-    public float SpeedP
-        => Mathf.Clamp(_currentVelocity.magnitude / _speed, 0f, 1f);
+    public override float MaxSpeed
+        => _speed;
 
     public float GunOrbitDistance
         => Mathf.Lerp(_gunsOrbitDistance.x, _gunsOrbitDistance.y, this.SpeedP);
@@ -111,8 +83,10 @@ public class CharacterControl : MonoBehaviour
     public Vector3 AimDirection { get; set; } = Vector3.forward;
 
     // Update is called once per frame
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
+
         var mouseX = Input.GetAxis("Mouse X");
         if (mouseX != 0f)
         {
@@ -143,29 +117,6 @@ public class CharacterControl : MonoBehaviour
 
         var targetVelocity = (Vector3.zero + right * horizontal + up * vertical) * _speed;
         _currentVelocity += (targetVelocity - _currentVelocity) * Time.deltaTime * _speedSmooth;
-
-        var speedP = this.SpeedP;
-
-        var bobSpeed = Mathf.Lerp(_bobSpeed.x, _bobSpeed.y, speedP);
-        var bobAmount = Mathf.Lerp(_bobAmount.x, _bobAmount.y, speedP);
-        var rotationBobSpeed = Mathf.Lerp(_rotationBobSpeed.x, _rotationBobSpeed.y, speedP);
-        var rotationBobAmount = Mathf.Lerp(_rotationBobAmount.x, _rotationBobAmount.y, speedP);
-
-        _bobTime += Time.deltaTime * bobSpeed;
-        _rotationBobTime += Time.deltaTime * rotationBobSpeed;
-
-        var characterRotation = new Vector3(Mathf.Cos(_rotationBobTime), 0f, -Mathf.Cos(_rotationBobTime * 0.5f)) * rotationBobAmount;
-
-        _visualCharacter.transform.rotation = Quaternion.Euler(characterRotation);
-        _visualCharacter.transform.localPosition = _characterLocalpos + new Vector3(0f, Mathf.Cos(_bobTime), 0f) * bobAmount;
-
-        if (speedP > 0f)
-        {
-            var rotMovePos = transform.position + new Vector3(0f, 1f, 0f);
-            rotMovePos -= _currentVelocity.normalized * speedP;
-
-            _visualCharacter.transform.rotation = Quaternion.Lerp(_visualCharacter.transform.rotation, Quaternion.FromToRotation(Vector3.up, (rotMovePos - transform.position).normalized), _velocityRotate);
-        }
 
         this.UpdateGuns();
     }
@@ -207,8 +158,10 @@ public class CharacterControl : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
+
         var vel = _rb.velocity;
         vel.x = _currentVelocity.x;
         vel.z = _currentVelocity.z;

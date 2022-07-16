@@ -210,6 +210,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bab29a0b2306f4484dcf45396bbe53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _bobAmount: {x: 0.1, y: 0.15}
+  _bobSpeed: {x: 1, y: 40}
+  _rotationBobAmount: {x: 5, y: 14}
+  _rotationBobSpeed: {x: 1.3, y: 30}
+  _velocityRotate: 0.45
+  _visualObject: {fileID: 5636066786291795966}
+  _visualCharacter: {fileID: 1700109242}
   _guns: []
   _gunsOrbitDistance: {x: 0.65, y: 0.72}
   _gunsOrbitHeight: {x: 0.8, y: 1}
@@ -220,13 +227,6 @@ MonoBehaviour:
   _cameraRotationSpeed: 0
   _cameraSmoothSpeed: 8
   _cameraDistance: 12
-  _bobAmount: {x: 0.1, y: 0.15}
-  _bobSpeed: {x: 1, y: 30}
-  _rotationBobAmount: {x: 5, y: 14}
-  _rotationBobSpeed: {x: 1.3, y: 20}
-  _velocityRotate: 0.45
-  _visualObject: {fileID: 5636066786291795966}
-  _visualCharacter: {fileID: 1700109242}
   _gunsObject: {fileID: 4150395119822308399}
 --- !u!33 &5636066787342296892
 MeshFilter:
