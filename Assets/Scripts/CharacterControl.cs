@@ -128,20 +128,14 @@ public class CharacterControl : DiceCharacter
         var mouseRay = this.Camera.ScreenPointToRay(mousePos);
         var mouseHitpoint = Vector3.zero;
 
-        if (Physics.Raycast(mouseRay, out var hit))
-        {
-            mouseHitpoint = hit.point;
-            mouseAimDirection = (hit.point - transform.position);
-            mouseAimDirection.y = 0f;
-            mouseAimDirection.Normalize();
-
-            mouseHitpoint.y = Mathf.Max(mouseHitpoint.y, _visualCharacter.transform.position.y);
-        }
-
-        this.AimDirection = mouseAimDirection;
-
         foreach (var gun in _guns)
         {
+            if (new Plane(Vector3.up, gun.transform.position).Raycast(mouseRay, out var enter))
+            {
+                mouseHitpoint = mouseRay.GetPoint(enter);
+                mouseAimDirection = (mouseHitpoint - gun.transform.position).normalized;
+            }
+
             var orbitOrigin = _visualObject.transform.position + Vector3.up * this.GunOrbitHeight;
             var orbitDistance = this.GunOrbitDistance + gun.OrbitDistanceAdd;
             var aimDirection = mouseAimDirection;
@@ -156,6 +150,8 @@ public class CharacterControl : DiceCharacter
 
             gun.AimDirection = (mouseHitpoint - gun.transform.position).normalized;
         }
+
+        this.AimDirection = mouseAimDirection;
     }
 
     protected override void FixedUpdate()
