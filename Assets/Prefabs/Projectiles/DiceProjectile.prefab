@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e78fdc0eb441834ea59092fe03862fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 30
+  _speed: 22
   _lifetime: 5
   _shootAudio: []
 --- !u!135 &658133728111262320

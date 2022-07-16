@@ -68,8 +68,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _player: {fileID: 0}
-  _targetDistanceMin: 3
-  _targetDistanceMax: 5
+  _targetDistanceMin: 2
+  _targetDistanceMax: 3
 --- !u!65 &4623694260482021449
 BoxCollider:
   m_ObjectHideFlags: 0
