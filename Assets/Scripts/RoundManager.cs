@@ -27,19 +27,22 @@ public class RoundManager : MonoBehaviour
 
     private void Start()
     {
-
+        this.NextRound();
     }
 
     public int Round { get; set; }
 
     public bool RoundActive { get; set; }
 
+    public bool RoundEndBlocked
+        => this.RoundPercentage >= 1f && Object.FindObjectsOfType<Enemy>().Length > 0;
+
     public float RoundDuration { get; set; }
 
     public float RoundStartTime { get; set; }
 
     public float RoundPercentage
-        => Mathf.Clamp(Time.time - this.RoundStartTime / this.RoundDuration, 0.0f, 1.0f);
+        => Mathf.Clamp((Time.time - this.RoundStartTime) / this.RoundDuration, 0.0f, 1.0f);
 
     private void Update()
     {
@@ -60,7 +63,7 @@ public class RoundManager : MonoBehaviour
 
         Debug.Log("StartRound");
 
-        this.RoundActive = false;
+        this.RoundActive = true;
         this.Round = round;
         this.RoundStartTime = Time.time;
         this.RoundDuration = _roundsDuration;
@@ -87,14 +90,19 @@ public class RoundManager : MonoBehaviour
 
     private void RoundThink()
     {
-        if (this.RoundPercentage >= 1f)
+        var roundEndBlocked = this.RoundEndBlocked;
+
+        if (this.RoundPercentage >= 1f && !roundEndBlocked)
         {
             this.FinishRound();
         }
 
-        if (Time.time - _lastEnemySpawn >= _enemySpawnInterval)
+        if (this.RoundActive && !roundEndBlocked)
         {
-            this.SpawnEnemy(out _);
+            if (Time.time - _lastEnemySpawn >= _enemySpawnInterval)
+            {
+                this.SpawnEnemy(out _);
+            }
         }
     }
 
@@ -111,6 +119,12 @@ public class RoundManager : MonoBehaviour
         if (spawns.Length == 0)
         {
             Debug.LogError("No enemy spawns");
+            return false;
+        }
+
+        if (_enemySpawnOptions == null)
+        {
+            Debug.LogError("no enemy spawn options set");
             return false;
         }
 
