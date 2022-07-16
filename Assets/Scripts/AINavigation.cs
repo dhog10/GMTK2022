@@ -1,24 +1,29 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class MyCoolScript : MonoBehaviour
+public class AINavigation : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
-    [SerializeField] private float targetDistanceMin;
-    [SerializeField] private float targetDistanceMax;
-    private NavMeshAgent navMeshAgent;
+    [SerializeField] private GameObject _player;
+    [SerializeField] private float _targetDistanceMin;
+    [SerializeField] private float _targetDistanceMax;
+    private NavMeshAgent _navMeshAgent;
 
     private void Start()
     {
-        navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.stoppingDistance = targetDistanceMax;
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _navMeshAgent.stoppingDistance = _targetDistanceMax;
     }
 
     private void Update()
     {
-        var playerDistance = Vector3.Distance(player.transform.position, transform.position);
+        if (_player == null)
+        {
+            _player = Object.FindObjectOfType<CharacterControl>()?.gameObject;
+        }
 
-        if (playerDistance < targetDistanceMin)
+        var playerDistance = Vector3.Distance(_player.transform.position, transform.position);
+
+        if (playerDistance < _targetDistanceMin)
         {
             var radius = 100.0f;
             var navMeshBounds = GenerateNavMeshBounds();
@@ -26,15 +31,15 @@ public class MyCoolScript : MonoBehaviour
             {
                 radius = navMeshBounds.extents.x;
             }
-            var distantPosition = transform.position + (-radius * (player.transform.position - transform.position).normalized);
+            var distantPosition = transform.position + (-radius * (_player.transform.position - transform.position).normalized);
             if (NavMesh.SamplePosition(distantPosition, out var hit, radius, 1))
             {
-                navMeshAgent.SetDestination(hit.position);
+                _navMeshAgent.SetDestination(hit.position);
             }
         }
         else
         {
-            navMeshAgent.SetDestination(player.transform.position);
+            _navMeshAgent.SetDestination(_player.transform.position);
         }
     }
 
