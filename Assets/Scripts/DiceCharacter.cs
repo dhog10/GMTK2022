@@ -25,10 +25,14 @@ public class DiceCharacter : MonoBehaviour
     [SerializeField]
     protected GameObject _visualCharacter;
 
+    [SerializeField]
+    private GameObject[] _footstepPrefabs;
+
     private Vector3 _characterLocalpos;
     private Vector3 _prevPos;
     private float _bobTime;
     private float _rotationBobTime;
+    private float _lastFootstep;
 
     protected virtual void Awake()
     {
@@ -46,7 +50,7 @@ public class DiceCharacter : MonoBehaviour
     }
 
     public virtual float SpeedP
-        => Mathf.Clamp(this.CurrentVelocity.magnitude / this.MaxSpeed, 0f, 1f);
+        => Mathf.Clamp(new Vector3(this.CurrentVelocity.x, 0f, this.CurrentVelocity.z).magnitude / this.MaxSpeed, 0f, 1f);
 
     public virtual float MaxSpeed
         => 0.0000001f;
@@ -78,6 +82,42 @@ public class DiceCharacter : MonoBehaviour
 
             _visualCharacter.transform.rotation = Quaternion.Lerp(_visualCharacter.transform.rotation, Quaternion.FromToRotation(Vector3.up, (rotMovePos - transform.position).normalized), _velocityRotate);
         }
+
+        var footstepInterval = 60f / bobSpeed / 10;
+
+        if (speedP <= 0.01f)
+        {
+            _lastFootstep = Time.time - footstepInterval * 0.75f;
+        }
+
+        if (Time.time - _lastFootstep >= footstepInterval)
+        {
+            this.Footstep();
+        }
+    }
+
+    private void Footstep()
+    {
+        _lastFootstep = Time.time;
+
+        if (_footstepPrefabs == null || _footstepPrefabs.Length == 0)
+        {
+            return;
+        }
+
+        var prefab = _footstepPrefabs[Random.Range(0, _footstepPrefabs.Length)];
+        var footstep = GameObject.Instantiate(prefab, this.transform.position, Quaternion.identity);
+        var snds = footstep.GetComponents<AudioSource>();
+        if (snds == null || snds.Length == 0)
+        {
+            Debug.LogError("Footstep has no audio sources");
+            return;
+        }
+
+        var snd = snds[Random.Range(0, snds.Length)];
+
+        snd.Play();
+        GameObject.Destroy(footstep, snd.clip.length);
     }
 
     protected virtual void FixedUpdate()
