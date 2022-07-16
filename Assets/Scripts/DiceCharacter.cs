@@ -30,6 +30,11 @@ public class DiceCharacter : MonoBehaviour
     private float _bobTime;
     private float _rotationBobTime;
 
+    protected virtual void Awake()
+    {
+
+    }
+
     protected virtual void Start()
     {
         var rnd = Random.Range(0f, 20f);
