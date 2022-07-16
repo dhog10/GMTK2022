@@ -93,7 +93,7 @@ public class DiceGun : MonoBehaviour
         _recoilAmt = 1f;
         _recoilScaleAmt = 1f;
 
-        var projectileObject = GameObject.Instantiate(_projectilePrefab, this.transform.position, Quaternion.identity);
+        var projectileObject = GameObject.Instantiate(_projectilePrefab, this.transform.position, Quaternion.LookRotation(this.AimDirection.normalized));
         var projectile = projectileObject.GetComponent<Projectile>();
         projectile.Shoot(this.AimDirection);
     }
