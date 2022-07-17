@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void GunEvent(DiceGun gun);
+
 public class DiceGun : MonoBehaviour
 {
+    public GunEvent OnShoot;
+
     [Header("Setup")]
 
     [SerializeField]
@@ -17,6 +21,9 @@ public class DiceGun : MonoBehaviour
 
     [SerializeField]
     private GameObject _visualObject;
+
+    [SerializeField]
+    private float _screenShake;
 
     [Header("Recoil")]
 
@@ -43,6 +50,9 @@ public class DiceGun : MonoBehaviour
 
     [SerializeField]
     private float _damage;
+
+    [SerializeField]
+    private GameObject _shootSoundPrefab;
 
     [SerializeField]
     private Team _team;
@@ -127,6 +137,17 @@ public class DiceGun : MonoBehaviour
         }
 
         projectile.Shoot(this.AimDirection);
+
+        if (_shootSoundPrefab != null)
+        {
+            GameObject.Instantiate(_shootSoundPrefab, transform.position, Quaternion.identity);
+        }
+
+
+        if (_screenShake > 0f && CharacterControl.Instance != null)
+        {
+            CharacterControl.Instance.ScreenShake(_screenShake);
+        }
     }
 
     protected virtual bool FireInputPressed()
