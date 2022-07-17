@@ -16,4 +16,9 @@ public class Enemy : DiceCharacter
 
         _agent = this.GetComponent<NavMeshAgent>();
     }
+
+    public void Die()
+    {
+        GameObject.Destroy(this.gameObject);
+    }
 }

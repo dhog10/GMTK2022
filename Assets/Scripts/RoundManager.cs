@@ -29,6 +29,12 @@ public class RoundManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            GameObject.DestroyImmediate(this.gameObject);
+            return;
+        }
+
         Instance = this;
     }
 

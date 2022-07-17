@@ -18,6 +18,8 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource _menuMusic;
 
+    public AudioSource _actionMusic;
+
     private float _ambienceVolume;
     private float _menuMusicVolume;
     private float _actionMusicVolume;
@@ -26,6 +28,12 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            GameObject.DestroyImmediate(this.gameObject);
+            return;
+        }
+
         Instance = this;
     }
 
@@ -35,6 +43,7 @@ public class SoundManager : MonoBehaviour
 
         _ambienceSound.Play();
         _menuMusic.Play();
+        _actionMusic.Play();
 
         this.UpdateSounds();
     }
@@ -57,7 +66,7 @@ public class SoundManager : MonoBehaviour
 
         var actionVolume = this.Music == SoundManagerMusic.Action ? 1f : 0f;
         _actionMusicVolume += (actionVolume - _actionMusicVolume) * Mathf.Min(0.5f, Time.deltaTime * _transitionSpeed);
-        //_actionMusic.volume = _actionMusicVolume;
+        _actionMusic.volume = _actionMusicVolume;
 
     }
 }

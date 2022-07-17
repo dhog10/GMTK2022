@@ -5,6 +5,9 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField]
+    private float _damage;
+
+    [SerializeField]
     private float _speed = 30f;
 
     [SerializeField]
@@ -16,18 +19,23 @@ public class Projectile : MonoBehaviour
     private Rigidbody _rb;
     private float _startTime;
 
+    public Team Team { get; set; }
+
+    public float Damage { get; set; }
+
     private void Awake()
     {
         _rb = this.GetComponent<Rigidbody>();
 
         _startTime = Time.time;
+        this.Damage = _damage;
     }
 
     private void Update()
     {
         if (Time.time - _startTime > _lifetime)
         {
-            GameObject.DestroyImmediate(this.gameObject);
+            this.DestroyProjectile();
             return;
         }
     }
@@ -44,5 +52,23 @@ public class Projectile : MonoBehaviour
                 source.Play();
             }
         }
+    }
+
+    public void DestroyProjectile()
+    {
+        GameObject.Destroy(this.gameObject);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        var other = collision.gameObject;
+        var damagable = other.GetComponent<Damagable>() ?? other.GetComponentInChildren<Damagable>();
+
+        if (damagable != null)
+        {
+            damagable.Damage(this.Damage, this.Team);
+        }
+
+        this.DestroyProjectile();
     }
 }

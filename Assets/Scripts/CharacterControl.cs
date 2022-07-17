@@ -130,7 +130,7 @@ public class CharacterControl : DiceCharacter
 
         foreach (var gun in _guns)
         {
-            if (new Plane(Vector3.up, gun.transform.position).Raycast(mouseRay, out var enter))
+            if (new Plane(Vector3.up, _visualObject.transform.position).Raycast(mouseRay, out var enter))
             {
                 mouseHitpoint = mouseRay.GetPoint(enter);
                 mouseAimDirection = (mouseHitpoint - gun.transform.position).normalized;

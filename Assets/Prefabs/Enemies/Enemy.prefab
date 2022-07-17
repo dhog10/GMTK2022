@@ -142,6 +142,7 @@ GameObject:
   - component: {fileID: 1731876958274279211}
   - component: {fileID: 4623694260482021449}
   - component: {fileID: 4109521197971142303}
+  - component: {fileID: 3893471607080233204}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -237,6 +238,35 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &3893471607080233204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4623694260482021448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a95a5845a3811544a47c2e6bb433471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 5
+  _team: 2
+  _onKilled:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4623694260482021451}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &4623694261314075592
 GameObject:
   m_ObjectHideFlags: 0
