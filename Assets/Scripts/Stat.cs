@@ -54,6 +54,7 @@ public class Stat
             {
                 pdGun = GameObject.Instantiate(CharacterControl.Instance.PDGunPrefab, CharacterControl.Instance.GunsObject.transform).GetComponent<DiceGunAuto>();
                 CharacterControl.Instance.Guns.Add(pdGun);
+                CharacterControl.Instance.RegisterGun(pdGun);
             }
 
             pdGun.Damage = 1f;

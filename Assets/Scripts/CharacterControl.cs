@@ -50,6 +50,7 @@ public class CharacterControl : DiceCharacter
     private Rigidbody _rb;
     private Vector3 _currentVelocity;
     private float _originalMaxSpeed;
+    private float _screenShakeAmount;
 
     protected override void Awake()
     {
@@ -85,6 +86,11 @@ public class CharacterControl : DiceCharacter
             {
                 _guns.Add(gun);
             }
+        }
+
+        foreach (var gun in _guns)
+        {
+            this.RegisterGun(gun);
         }
     }
 
@@ -129,6 +135,16 @@ public class CharacterControl : DiceCharacter
         _speed = speed;
     }
 
+    public void RegisterGun(DiceGun gun)
+    {
+        gun.OnShoot += this.OnGunShot;
+    }
+
+    private void OnGunShot(DiceGun gun)
+    {
+
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -138,6 +154,16 @@ public class CharacterControl : DiceCharacter
         {
             _currentCameraYaw += mouseX * _cameraRotationSpeed;
         }
+
+        var screenShake = Vector3.zero;
+        var shake = _screenShakeAmount;
+        if (shake > 0)
+        {
+            _screenShakeAmount = Mathf.Max(0f, _screenShakeAmount - Time.deltaTime * 2f);
+            var s = shake * 0.1f;
+            screenShake = new Vector3(Random.Range(-s, s), Random.Range(-s, s), Random.Range(-s, s));
+        }
+
 
         this.CameraYaw += (_currentCameraYaw - this.CameraYaw) * Time.deltaTime * _cameraSmoothSpeed;
 
@@ -149,7 +175,7 @@ public class CharacterControl : DiceCharacter
 
         var rotation = Quaternion.Euler(this.CameraPitch, this.CameraYaw, 0f);
         cam.transform.rotation = rotation;
-        cam.transform.position = transform.position - (rotation * Vector3.forward) * _cameraDistance;
+        cam.transform.position = transform.position - (rotation * Vector3.forward) * _cameraDistance + screenShake;
 
         var horizontal = Input.GetAxis("Horizontal");
         var vertical = Input.GetAxis("Vertical");
@@ -173,6 +199,11 @@ public class CharacterControl : DiceCharacter
         RoundManager.Instance.FinishRound(false);
 
         GameObject.Destroy(this.gameObject);
+    }
+
+    public void ScreenShake(float amt)
+    {
+        _screenShakeAmount = Mathf.Max(_screenShakeAmount, amt);
     }
 
     private void UpdateGuns()
