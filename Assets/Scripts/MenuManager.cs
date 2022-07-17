@@ -133,14 +133,15 @@ public class MenuManager : MonoBehaviour
             else
             {
                 text = "";
-                for (var i = 0; i < Mathf.Floor(player.Damagable.Health / 9); i++)
+                var hp = Mathf.Ceil(player.Damagable.Health);
+                for (var i = 0; i < Mathf.Floor(hp / 9); i++)
                 {
                     text += 9.ToString();
                 }
 
-                if (Mathf.Ceil(player.Damagable.Health) % 9 > 0)
+                if (hp % 9 > 0)
                 {
-                    text += (Mathf.Ceil(player.Damagable.Health) % 9).ToString();
+                    text += (hp % 9).ToString();
                 }
 
                 _hpText.text = text;
