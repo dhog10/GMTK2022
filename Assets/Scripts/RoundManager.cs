@@ -64,6 +64,7 @@ public class RoundManager : MonoBehaviour
 
     public void NextRound()
     {
+        Stat.ProcessStats();
         this.StartRound(this.Round + 1);
     }
 
