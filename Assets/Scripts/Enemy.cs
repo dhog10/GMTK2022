@@ -86,7 +86,7 @@ public class Enemy : DiceCharacter
 
     public void Die()
     {
-        Instantiate(_deathParticles, transform.position, transform.rotation);
+        Instantiate(_deathParticles, _visualCharacter.transform.position, _visualCharacter.transform.rotation);
         GameObject.Destroy(this.gameObject);
     }
 
