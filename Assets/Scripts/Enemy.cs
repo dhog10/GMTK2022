@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class Enemy : DiceCharacter
 {
+    [SerializeField] private GameObject _deathParticles;
     private NavMeshAgent _agent;
 
     public override float MaxSpeed
@@ -19,6 +20,7 @@ public class Enemy : DiceCharacter
 
     public void Die()
     {
+        Instantiate(_deathParticles, transform.position, transform.rotation);
         GameObject.Destroy(this.gameObject);
     }
 }
