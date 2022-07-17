@@ -60,6 +60,7 @@ public class MenuManager : MonoBehaviour
     private System.Action _blackoutAction;
 
     private Vector3 _startButtonPos;
+    private Vector3 _originalStartButtonPos;
     private float _deathScreenOpacity;
     private bool _showDeathScreen;
     private bool _hasAddedStats;
@@ -87,6 +88,7 @@ public class MenuManager : MonoBehaviour
         _spawns = _upDownSpawns.GetComponentsInChildren<Transform>().Select(t => t.transform).ToArray();
 
         _startButtonPos = _startButton.transform.position;
+        _originalStartButtonPos = _startButtonPos;
         _startButton.transform.position += Vector3.up * -70f;
 
         this.Blackout(false, 4f);
@@ -265,6 +267,8 @@ public class MenuManager : MonoBehaviour
             Debug.Log("Return to menu");
 
             _showDeathScreen = false;
+            _startButtonPos = _originalStartButtonPos;
+            _startButton.transform.position = _startButtonPos + Vector3.up * -70f;
         });
     }
 

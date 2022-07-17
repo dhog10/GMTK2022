@@ -85,7 +85,7 @@ public class DiceGun : MonoBehaviour
     private void Update()
     {
         var fire = this.FireInputPressed();
-        if (fire && Time.time - _lastShoot >= 60f / _rpm)
+        if (fire && Time.time - _lastShoot >= 60f / this.RPM)
         {
             _lastShoot = Time.time;
             this.Shoot();
