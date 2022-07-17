@@ -95,6 +95,8 @@ public class Podium : MonoBehaviour
         var stat = CharacterControl.Instance.Stats.FirstOrDefault(s => s.Name == this.Stat.Name);
         stat.Value = Mathf.Max(stat.Value + number, 0f);
 
+        Stat.ProcessStats();
+
         StartCoroutine(this.Delay(3f, () =>
         {
             foreach (var podium in Podiums)

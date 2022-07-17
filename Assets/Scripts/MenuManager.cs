@@ -92,6 +92,7 @@ public class MenuManager : MonoBehaviour
         this.Blackout(false, 4f);
 
         _deathScreenCG.enabled = true;
+        _deathScreenCG.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -267,6 +268,8 @@ public class MenuManager : MonoBehaviour
 
     public void DeathScreen()
     {
+        Debug.Log("DeathScreen");
+
         _showDeathScreen = true;
         _deathRounds.text = $"{RoundManager.Instance.Round - 1} Rounds Survived";
 
