@@ -10,6 +10,11 @@ public class DiceGunAuto : DiceGun
 
     protected override bool FireInputPressed()
     {
+        if (Object.FindObjectsOfType<Damagable>().Where(d => d.Team == Team.Enemy).Count() == 0)
+        {
+            return false;
+        }
+
         return true;
     }
 }
