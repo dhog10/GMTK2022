@@ -109,6 +109,7 @@ public class RoundManager : MonoBehaviour
 
         if (roundsContinue)
         {
+            StartCoroutine(this.HealPlayer());
             StartCoroutine(this.Delay(15f, () =>
             {
                 this.NextRound();
@@ -207,5 +208,20 @@ public class RoundManager : MonoBehaviour
         yield return new WaitForSeconds(time);
 
         callback?.Invoke();
+    }
+
+    private IEnumerator HealPlayer()
+    {
+        var player = CharacterControl.Instance;
+        if (player == null)
+        {
+            yield return null;
+        }
+
+        while (player.Damagable.Health < player.Damagable.MaxHealth)
+        {
+            player.Damagable.SetHealth(player.Damagable.Health + 1f / player.Damagable.MaxHealth);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 }
