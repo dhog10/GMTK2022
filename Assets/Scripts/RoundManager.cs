@@ -82,6 +82,8 @@ public class RoundManager : MonoBehaviour
         this.RoundStartTime = Time.time;
         this.RoundDuration = _roundsDuration;
 
+        CharacterControl.Instance.Damagable.SetHealth(CharacterControl.Instance.Damagable.MaxHealth);
+
         StartCoroutine(this.Delay(4f, () =>
         {
             var initialSpawn = (int)Mathf.Floor(_enemyInitialSpawnCount);

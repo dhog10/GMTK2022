@@ -94,7 +94,6 @@ public class CharacterControl : DiceCharacter
 
     public Vector3 AimDirection { get; set; } = Vector3.forward;
 
-    // Update is called once per frame
     protected override void Update()
     {
         base.Update();
@@ -131,6 +130,12 @@ public class CharacterControl : DiceCharacter
         _currentVelocity += (targetVelocity - _currentVelocity) * Time.deltaTime * _speedSmooth;
 
         this.UpdateGuns();
+    }
+
+    public void Die()
+    {
+        MenuManager.Instance.DeathScreen();
+        RoundManager.Instance.FinishRound(false);
     }
 
     private void UpdateGuns()

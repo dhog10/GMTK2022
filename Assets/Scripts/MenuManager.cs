@@ -36,6 +36,12 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _hpText;
 
+    [SerializeField]
+    private CanvasGroup _deathScreenCG;
+
+    [SerializeField]
+    private TextMeshProUGUI _deathRounds;
+
     private Transform[] _spawns;
     private List<GameObject> _upDownFloatyDice = new List<GameObject>();
     private float _lastSpawn;
@@ -48,6 +54,8 @@ public class MenuManager : MonoBehaviour
     private System.Action _blackoutAction;
 
     private Vector3 _startButtonPos;
+    private float _deathScreenOpacity;
+    private bool _showDeathScreen;
 
     private void Awake()
     {
@@ -102,6 +110,14 @@ public class MenuManager : MonoBehaviour
         }
 
         _blackoutPanel.color = blackoutCol;
+
+        #endregion
+
+        #region Death screen
+
+        var deathScreenTarget = _showDeathScreen ? 1f : 0f;
+        _deathScreenOpacity += (deathScreenTarget - _deathScreenOpacity) * Time.deltaTime;
+        _deathScreenCG.alpha = _deathScreenOpacity;
 
         #endregion
 
@@ -212,7 +228,7 @@ public class MenuManager : MonoBehaviour
         });
     }
 
-    public void ReturnToMenu()
+    public void ReturnToMenu(System.Action callback = null)
     {
         this.Blackout(false, 2f, () =>
         {
@@ -222,6 +238,20 @@ public class MenuManager : MonoBehaviour
             SoundManager.Instance.Music = SoundManagerMusic.Menu;
             Debug.Log("Return to menu");
         });
+    }
+
+    public void DeathScreen()
+    {
+        _showDeathScreen = true;
+        _deathRounds.text = $"{RoundManager.Instance.Round - 1} Rounds Survived";
+
+        StartCoroutine(this.Delay(8f, () =>
+        {
+            this.ReturnToMenu(() =>
+            {
+                _showDeathScreen = false;
+            });
+        }));
     }
 
     public void Blackout(bool on, float sustainTime = 0.1f, System.Action callback = null)
