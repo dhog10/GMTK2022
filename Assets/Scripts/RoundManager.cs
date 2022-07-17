@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
+    public static RoundManager Instance;
+
     [SerializeField]
     private float _roundsDuration = 60f;
 
@@ -25,9 +27,14 @@ public class RoundManager : MonoBehaviour
 
     private float _lastEnemySpawn;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
-        this.NextRound();
+        GameObject.DontDestroyOnLoad(this);
     }
 
     public int Round { get; set; }
@@ -77,12 +84,23 @@ public class RoundManager : MonoBehaviour
 
     public void FinishRound()
     {
+        if (!this.RoundActive)
+        {
+            return;
+        }
+
         Debug.Log("FinishRound");
 
         this.RoundActive = false;
 
         _enemySpawnInterval -= _enemySpawnInterval * _enemySpawnIntervalDecrease;
         _enemyInitialSpawnCount += _enemyInitialSpawnIncrease;
+    }
+
+    public void ResetRounds()
+    {
+        this.FinishRound();
+        this.Round = 0;
     }
 
     public IEnumerable<EnemySpawn> EnemySpawns
