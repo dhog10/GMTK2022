@@ -225,6 +225,8 @@ MonoBehaviour:
   _gunsOrbitDistance: {x: 1, y: 1.2}
   _gunsOrbitHeight: {x: 0.8, y: 1}
   _gunsObject: {fileID: 2678060448872341861}
+  _deathParticles: {fileID: 4371965460197374762, guid: aa24e1ed0a107154eb531b0285150530,
+    type: 3}
 --- !u!114 &1731876958274279211
 MonoBehaviour:
   m_ObjectHideFlags: 0
