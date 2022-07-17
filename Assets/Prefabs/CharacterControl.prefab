@@ -190,7 +190,7 @@ MonoBehaviour:
   _cameraStartYaw: -45
   _cameraRotationSpeed: 0
   _cameraSmoothSpeed: 8
-  _cameraDistance: 12
+  _cameraDistance: 14
   _gunsObject: {fileID: 4150395119822308399}
   _stats:
   - _id: hp
@@ -208,6 +208,8 @@ MonoBehaviour:
   - _id: attack speed
     _name: Attack Speed
     _default: 10
+  _deathParticles: {fileID: 4371965460197374762, guid: 11842daa841714d4da0d72b24330ad0c,
+    type: 3}
 --- !u!33 &5636066787342296892
 MeshFilter:
   m_ObjectHideFlags: 0
