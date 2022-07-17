@@ -220,8 +220,9 @@ public class RoundManager : MonoBehaviour
 
         while (player.Damagable.Health < player.Damagable.MaxHealth)
         {
-            player.Damagable.SetHealth(player.Damagable.Health + 1f / player.Damagable.MaxHealth);
-            yield return new WaitForSeconds(0.1f);
+            var incr = 1f / player.Damagable.MaxHealth * 200f;
+            player.Damagable.SetHealth(player.Damagable.Health + incr);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 }
