@@ -99,6 +99,12 @@ public class MenuManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetAxis("Cancel") > 0f)
+        {
+            Application.Quit();
+            return;
+        }
+
         #region Blackout
 
         var blackoutTarget = _blackoutTarget;

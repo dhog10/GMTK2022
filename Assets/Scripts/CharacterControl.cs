@@ -226,10 +226,6 @@ public class CharacterControl : DiceCharacter
             if (gun.AutoFire)
             {
                 var closestEnemy = GameObject.FindObjectsOfType<Damagable>().Where(d => d.Team == Team.Enemy).OrderBy(d => Vector3.Distance(d.transform.position, _visualObject.transform.position)).FirstOrDefault();
-                if (closestEnemy == null)
-                {
-                    continue;
-                }
 
                 var orbitOrigin2 = _visualObject.transform.position + Vector3.up * this.GunOrbitHeight;
                 var orbitDistance2 = this.GunOrbitDistance + gun.OrbitDistanceAdd;
@@ -243,7 +239,10 @@ public class CharacterControl : DiceCharacter
                 var fwd2 = (rotation2 * Vector3.forward);
                 gun.transform.position = orbitOrigin2 + fwd2 * orbitDistance2;
 
-                gun.AimDirection = (closestEnemy.transform.position - gun.transform.position).normalized;
+                if (closestEnemy != null)
+                {
+                    gun.AimDirection = (closestEnemy.transform.position - gun.transform.position).normalized;
+                }
 
                 continue;
             }
