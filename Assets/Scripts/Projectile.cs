@@ -16,6 +16,9 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private AudioSource[] _shootAudio;
 
+    [SerializeField]
+    private GameObject _particles;
+
     private Rigidbody _rb;
     private float _startTime;
 
@@ -56,6 +59,8 @@ public class Projectile : MonoBehaviour
 
     public void DestroyProjectile()
     {
+        _particles.transform.parent = null;
+        _particles.GetComponent<ParticleSystem>()?.Stop();
         GameObject.Destroy(this.gameObject);
     }
 

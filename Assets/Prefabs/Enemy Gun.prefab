@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rpm: 180
-  _projectilePrefab: {fileID: 4007041703320143364, guid: c07bffc1c36721d4e9b792a3ace4973e,
+  _projectilePrefab: {fileID: 4007041703320143364, guid: 1fa3c7bb5ffb704489200031841d711d,
     type: 3}
   _orbitDistanceAdd: 0
   _visualObject: {fileID: 5913728506081720570}
