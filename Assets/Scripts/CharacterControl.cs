@@ -159,11 +159,12 @@ public class CharacterControl : DiceCharacter
         var shake = _screenShakeAmount;
         if (shake > 0)
         {
-            _screenShakeAmount = Mathf.Max(0f, _screenShakeAmount - Time.deltaTime * 2f);
+            _screenShakeAmount = Mathf.Max(0f, _screenShakeAmount - Time.deltaTime * 6f);
             var s = shake * 0.1f;
             screenShake = new Vector3(Random.Range(-s, s), Random.Range(-s, s), Random.Range(-s, s));
-        }
 
+            Debug.Log(_screenShakeAmount);
+        }
 
         this.CameraYaw += (_currentCameraYaw - this.CameraYaw) * Time.deltaTime * _cameraSmoothSpeed;
 

@@ -50,7 +50,7 @@ MonoBehaviour:
     type: 3}
   _orbitDistanceAdd: 0
   _visualObject: {fileID: 5040609872092559334}
-  _screenShake: 1
+  _screenShake: 1.15
   _recoilDistance: 1
   _recoilDecreaseSpeed: 12
   _recoilSnapSpeed: 12

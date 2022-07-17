@@ -198,6 +198,8 @@ public class MenuManager : MonoBehaviour
             _hpText.text = "";
         }
 
+        var seed = Random.Range(0, 10000000);
+
         if (SceneManager.GetActiveScene().name == "menu")
         {
             var spawnInterval = 60f / _spawns.Length * _spawnFrequency;
@@ -237,7 +239,7 @@ public class MenuManager : MonoBehaviour
             }
         }
 
-        Random.InitState((int)(Time.time * 10));
+        Random.InitState(seed);
     }
 
     public void StartGame()

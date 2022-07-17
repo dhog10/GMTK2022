@@ -73,9 +73,13 @@ public class Enemy : DiceCharacter
 
     public bool IsInputFiring()
     {
+        var seed = Random.Range(0, 1000000);
+
         Random.InitState(_seed);
 
         var t = Time.time + Random.Range(0f, 100f);
+        Random.InitState(seed);
+
         if (t % 5 < 2)
         {
             return true;
