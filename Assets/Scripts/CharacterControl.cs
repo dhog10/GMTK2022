@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -45,6 +44,9 @@ public class CharacterControl : DiceCharacter
 
     [SerializeField]
     private Stat[] _stats;
+
+    [SerializeField]
+    private GameObject _deathParticles;
 
     private float _currentCameraYaw;
     private Rigidbody _rb;
@@ -198,6 +200,11 @@ public class CharacterControl : DiceCharacter
     {
         MenuManager.Instance.DeathScreen();
         RoundManager.Instance.FinishRound(false);
+
+        if (_deathParticles != null)
+        {
+            Instantiate(_deathParticles, _visualCharacter.transform.position, _visualCharacter.transform.rotation);
+        }
 
         GameObject.Destroy(this.gameObject);
     }

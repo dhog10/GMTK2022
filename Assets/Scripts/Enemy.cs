@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,7 +16,9 @@ public class Enemy : DiceCharacter
     [SerializeField]
     private GameObject _gunsObject;
 
-    [SerializeField] private GameObject _deathParticles;
+    [SerializeField]
+    private GameObject _deathParticles;
+
     private NavMeshAgent _agent;
 
     public override float MaxSpeed
