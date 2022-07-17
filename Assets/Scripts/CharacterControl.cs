@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterControl : DiceCharacter
 {
+    public static CharacterControl Instance;
+
     [SerializeField]
     private List<DiceGun> _guns = new List<DiceGun>();
 
@@ -41,6 +43,13 @@ public class CharacterControl : DiceCharacter
     private Rigidbody _rb;
     private Vector3 _currentVelocity;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -63,6 +72,9 @@ public class CharacterControl : DiceCharacter
             }
         }
     }
+
+    public Damagable Damagable
+        => gameObject.GetComponent<Damagable>();
 
     public float CameraPitch { get; set; }
 

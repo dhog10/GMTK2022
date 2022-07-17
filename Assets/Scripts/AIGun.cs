@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class AIGun : DiceGun
 {
+    public Enemy Enemy { get; set; }
+
     protected override bool FireInputPressed()
     {
-        // Omg is ai shooting?
-
-        return base.FireInputPressed();
+        return this.Enemy?.IsInputFiring() ?? false;
     }
 }

@@ -38,7 +38,7 @@ public class Damagable : MonoBehaviour
 
     public void SetHealth(float hp)
     {
-        hp = Mathf.Max(hp, 0f);
+        hp = Mathf.Clamp(hp, 0f, this.MaxHealth);
         this.Health = hp;
 
         if (this.Health <= 0f && !this.Dead)

@@ -33,6 +33,9 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _roundText;
 
+    [SerializeField]
+    private TextMeshProUGUI _hpText;
+
     private Transform[] _spawns;
     private List<GameObject> _upDownFloatyDice = new List<GameObject>();
     private float _lastSpawn;
@@ -121,10 +124,33 @@ public class MenuManager : MonoBehaviour
             }
 
             _roundText.text = text;
+
+            var player = CharacterControl.Instance;
+            if (player == null)
+            {
+                _hpText.text = "";
+            }
+            else
+            {
+                text = "";
+                for (var i = 0; i < Mathf.Floor(player.Damagable.Health / 9); i++)
+                {
+                    text += 9.ToString();
+                }
+
+                if (Mathf.Ceil(player.Damagable.Health) % 9 > 0)
+                {
+                    text += (Mathf.Ceil(player.Damagable.Health) % 9).ToString();
+                }
+
+                _hpText.text = text;
+                _hpText.color = Color.Lerp(Color.red, Color.white, player.Damagable.Health / player.Damagable.MaxHealth);
+            }
         }
         else
         {
             _roundText.text = "";
+            _hpText.text = "";
         }
 
         if (SceneManager.GetActiveScene().name == "menu")
