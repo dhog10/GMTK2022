@@ -84,6 +84,11 @@ public class RoundManager : MonoBehaviour
 
         CharacterControl.Instance.Damagable.SetHealth(CharacterControl.Instance.Damagable.MaxHealth);
 
+        foreach (var podium in Podium.Podiums)
+        {
+            podium.EnablePodium(false);
+        }
+
         StartCoroutine(this.Delay(4f, () =>
         {
             var initialSpawn = (int)Mathf.Floor(_enemyInitialSpawnCount);
@@ -112,10 +117,20 @@ public class RoundManager : MonoBehaviour
         if (roundsContinue)
         {
             StartCoroutine(this.HealPlayer());
-            StartCoroutine(this.Delay(15f, () =>
+
+            StartCoroutine(this.Delay(2f, () =>
+            {
+                foreach (var podium in Podium.Podiums.Where(p => p.UpgradePodium))
+                {
+                    podium.SelectRoll();
+                    podium.EnablePodium(true);
+                }
+            }));
+
+            /*StartCoroutine(this.Delay(15f, () =>
             {
                 this.NextRound();
-            }));
+            }));*/
         }
     }
 

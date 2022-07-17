@@ -60,11 +60,27 @@ public class DiceGun : MonoBehaviour
     {
         this.OrbitDistanceAdd = _orbitDistanceAdd;
         _visualObjectOriginalScale = _visualObject.transform.localScale;
+
+        this.Damage = _damage;
+        this.OriginalDamage = _damage;
+        this.RPM = _rpm;
+        this.OriginalRPM = _rpm;
     }
 
     public float OrbitDistanceAdd { get; set; }
 
     public Vector3 AimDirection { get; set; } = Vector3.one;
+
+    public float Damage { get; set; }
+
+    public float OriginalDamage { get; private set; }
+
+    public float RPM { get; set; }
+
+    public float OriginalRPM { get; private set; }
+
+    public virtual bool AutoFire
+        => false;
 
     private void Update()
     {
@@ -107,7 +123,7 @@ public class DiceGun : MonoBehaviour
         projectile.Team = _team;
         if (_setDamage)
         {
-            projectile.Damage = _damage;
+            projectile.Damage = this.Damage;
         }
 
         projectile.Shoot(this.AimDirection);

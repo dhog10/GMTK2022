@@ -23,7 +23,7 @@ public class Damagable : MonoBehaviour
 
     public float Health { get; private set; }
 
-    public float MaxHealth { get; private set; }
+    public float MaxHealth { get; set; }
 
     public Team Team
         => _team;

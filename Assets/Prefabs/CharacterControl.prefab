@@ -180,6 +180,8 @@ MonoBehaviour:
   - {fileID: 1509596595360472870, guid: 484bf3b6f7817af44ad3f894eff2a758, type: 3}
   _footstepSoundLoop: {fileID: 0}
   _guns: []
+  _pdGunPrefab: {fileID: 5885517172801318564, guid: a2f3bea6da6312443abeb8855d47c2fd,
+    type: 3}
   _gunsOrbitDistance: {x: 0.65, y: 0.72}
   _gunsOrbitHeight: {x: 0.8, y: 1}
   _speed: 6
@@ -190,6 +192,22 @@ MonoBehaviour:
   _cameraSmoothSpeed: 8
   _cameraDistance: 12
   _gunsObject: {fileID: 4150395119822308399}
+  _stats:
+  - _id: hp
+    _name: Max Health
+    _default: 10
+  - _id: speed
+    _name: Speed
+    _default: 10
+  - _id: pd
+    _name: Point Defence
+    _default: 0
+  - _id: attack damage
+    _name: Attack Damage
+    _default: 10
+  - _id: attack speed
+    _name: Attack Speed
+    _default: 10
 --- !u!33 &5636066787342296892
 MeshFilter:
   m_ObjectHideFlags: 0

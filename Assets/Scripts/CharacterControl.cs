@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterControl : DiceCharacter
@@ -8,6 +9,9 @@ public class CharacterControl : DiceCharacter
 
     [SerializeField]
     private List<DiceGun> _guns = new List<DiceGun>();
+
+    [SerializeField]
+    private GameObject _pdGunPrefab;
 
     [SerializeField]
     private Vector2 _gunsOrbitDistance = new Vector2(1f, 1.2f);
@@ -39,15 +43,26 @@ public class CharacterControl : DiceCharacter
     [SerializeField]
     private GameObject _gunsObject;
 
+    [SerializeField]
+    private Stat[] _stats;
+
     private float _currentCameraYaw;
     private Rigidbody _rb;
     private Vector3 _currentVelocity;
+    private float _originalMaxSpeed;
 
     protected override void Awake()
     {
         base.Awake();
 
         Instance = this;
+
+        foreach (var stat in _stats)
+        {
+            stat.Value = stat.Default;
+        }
+
+        _originalMaxSpeed = _speed;
     }
 
     // Start is called before the first frame update
@@ -83,6 +98,9 @@ public class CharacterControl : DiceCharacter
     public override float MaxSpeed
         => _speed;
 
+    public float OriginalMaxSpeed
+        => _originalMaxSpeed;
+
     public float GunOrbitDistance
         => Mathf.Lerp(_gunsOrbitDistance.x, _gunsOrbitDistance.y, this.SpeedP);
 
@@ -93,6 +111,23 @@ public class CharacterControl : DiceCharacter
         => Camera.main;
 
     public Vector3 AimDirection { get; set; } = Vector3.forward;
+
+    public Stat[] Stats
+        => _stats;
+
+    public List<DiceGun> Guns
+        => _guns;
+
+    public GameObject GunsObject
+        => _gunsObject;
+
+    public GameObject PDGunPrefab
+        => _pdGunPrefab;
+
+    public void SetMaxSpeed(float speed)
+    {
+        _speed = speed;
+    }
 
     protected override void Update()
     {
@@ -147,6 +182,26 @@ public class CharacterControl : DiceCharacter
 
         foreach (var gun in _guns)
         {
+            if (gun.AutoFire)
+            {
+                var closestEnemy = GameObject.FindObjectsOfType<Damagable>().Where(d => d.Team == Team.Enemy).OrderBy(d => Vector3.Distance(d.transform.position, _visualObject.transform.position)).FirstOrDefault();
+                var orbitOrigin2 = _visualObject.transform.position + Vector3.up * this.GunOrbitHeight;
+                var orbitDistance2 = this.GunOrbitDistance + gun.OrbitDistanceAdd;
+                var t = Time.time;
+
+                var toGun2 = (gun.transform.position - orbitOrigin2).normalized;
+                var rotation2 = Quaternion.LookRotation(toGun2, Vector3.up);
+                var targetRotation2 = Quaternion.LookRotation(new Vector3(Mathf.Cos(t), 0f, Mathf.Sin(t)), Vector3.up);
+                rotation2 = Quaternion.Lerp(rotation2, targetRotation2, Time.deltaTime * 5f);
+
+                var fwd2 = (rotation2 * Vector3.forward);
+                gun.transform.position = orbitOrigin2 + fwd2 * orbitDistance2;
+
+                gun.AimDirection = (closestEnemy.transform.position - gun.transform.position).normalized;
+
+                continue;
+            }
+
             if (new Plane(Vector3.up, _visualObject.transform.position).Raycast(mouseRay, out var enter))
             {
                 mouseHitpoint = mouseRay.GetPoint(enter);

@@ -42,6 +42,12 @@ public class MenuManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _deathRounds;
 
+    [SerializeField]
+    private GameObject _statsPanel;
+
+    [SerializeField]
+    private GameObject _statsLabelPrefab;
+
     private Transform[] _spawns;
     private List<GameObject> _upDownFloatyDice = new List<GameObject>();
     private float _lastSpawn;
@@ -56,12 +62,14 @@ public class MenuManager : MonoBehaviour
     private Vector3 _startButtonPos;
     private float _deathScreenOpacity;
     private bool _showDeathScreen;
+    private bool _hasAddedStats;
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
             GameObject.DestroyImmediate(Instance.gameObject);
+            return;
         }
 
         Instance = this;
@@ -71,7 +79,10 @@ public class MenuManager : MonoBehaviour
 
     private void Start()
     {
-        SoundManager.Instance.Music = SoundManagerMusic.Menu;
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.Music = SoundManagerMusic.Menu;
+        }
 
         _spawns = _upDownSpawns.GetComponentsInChildren<Transform>().Select(t => t.transform).ToArray();
 
@@ -79,6 +90,8 @@ public class MenuManager : MonoBehaviour
         _startButton.transform.position += Vector3.up * -70f;
 
         this.Blackout(false, 4f);
+
+        _deathScreenCG.enabled = true;
     }
 
     private void Update()
@@ -121,12 +134,24 @@ public class MenuManager : MonoBehaviour
 
         #endregion
 
+        if (!_hasAddedStats && CharacterControl.Instance != null)
+        {
+            _hasAddedStats = true;
+
+            foreach (var stat in CharacterControl.Instance.Stats)
+            {
+                var label = GameObject.Instantiate(_statsLabelPrefab, _statsPanel.transform);
+                var text = label.GetComponent<StatsLabel>();
+                text.Stat = stat;
+            }
+        }
+
         var buttonTarget = _startButtonPos + Vector3.up * Mathf.Cos(Time.time) * 0.9f;
         var vel = Mathf.Min(5f, buttonTarget.y - _startButton.transform.position.y);
         _startButton.transform.position += Vector3.up * vel * Time.deltaTime;
         _startButton.transform.localRotation = Quaternion.Euler(Mathf.Cos(Time.time * 0.3f) * 1f, Mathf.Cos(Time.time * 0.5f) * 5f, 0f);
 
-        if (RoundManager.Instance.Round > 0)
+        if (RoundManager.Instance != null && RoundManager.Instance.Round > 0)
         {
             var text = "round ";
             for (var i = 0; i < Mathf.Floor(RoundManager.Instance.Round / 9); i++)
