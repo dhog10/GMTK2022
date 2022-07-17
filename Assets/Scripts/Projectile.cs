@@ -16,6 +16,9 @@ public class Projectile : MonoBehaviour
     [SerializeField]
     private AudioSource[] _shootAudio;
 
+    [SerializeField]
+    private GameObject _trail;
+
     private Rigidbody _rb;
     private float _startTime;
 
@@ -56,6 +59,7 @@ public class Projectile : MonoBehaviour
 
     public void DestroyProjectile()
     {
+        _trail.transform.parent = null;
         GameObject.Destroy(this.gameObject);
     }
 

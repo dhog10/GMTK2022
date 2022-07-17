@@ -163,6 +163,7 @@ MonoBehaviour:
   _speed: 22
   _lifetime: 5
   _shootAudio: []
+  _particles: {fileID: 8524918271885600583}
 --- !u!135 &658133728111262320
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -235,7 +236,7 @@ ParticleSystem:
   serializedVersion: 8
   lengthInSec: 5
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 2
   cullingMode: 0
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}

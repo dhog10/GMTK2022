@@ -53,7 +53,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c037a7f71a731ca448e66ea6d5b9ae97, type: 2}
+  - {fileID: 2100000, guid: 82ee90b10531ae04fa3501a885d12df4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -212,7 +212,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3074f5a36264b3a458214834a3e7e5fa, type: 2}
+  - {fileID: 2100000, guid: 6d02898199d8b064492eed8accddf80f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -273,7 +273,7 @@ GameObject:
   - component: {fileID: 658133728111262320}
   - component: {fileID: 3781218663198741718}
   m_Layer: 0
-  m_Name: DiceProjectile
+  m_Name: Enemy Projectile 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
