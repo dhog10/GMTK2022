@@ -109,7 +109,7 @@ public class MenuManager : MonoBehaviour
 
         if (RoundManager.Instance.Round > 0)
         {
-            var text = "Round ";
+            var text = "round ";
             for (var i = 0; i < Mathf.Floor(RoundManager.Instance.Round / 9); i++)
             {
                 text += 9.ToString();
