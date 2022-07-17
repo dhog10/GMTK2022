@@ -118,6 +118,8 @@ public class DiceGun : MonoBehaviour
 
             _visualObject.transform.localScale = _visualObjectOriginalScale * _currentRecoilScale;
         }
+
+        this.transform.rotation = Quaternion.LookRotation(this.AimDirection, Vector3.up);
     }
 
     public virtual void Shoot()
