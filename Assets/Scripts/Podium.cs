@@ -31,14 +31,7 @@ public class Podium : MonoBehaviour
 
         Podiums.Add(this);
 
-        if (!_upgradePodium)
-        {
-            this.EnablePodium(false);
-        }
-        else
-        {
-            this.SelectRoll();
-        }
+        this.EnablePodium(false);
     }
 
     public bool PodiumEnabled { get; private set; } = true;
@@ -47,6 +40,8 @@ public class Podium : MonoBehaviour
         => _upgradePodium;
 
     public Stat Stat { get; private set; }
+
+    public bool PodiumLocked { get; set; }
 
     public void SelectRoll()
     {
@@ -68,6 +63,11 @@ public class Podium : MonoBehaviour
         }
 
         this.PodiumEnabled = enabled;
+
+        if (enabled)
+        {
+            this.PodiumLocked = false;
+        }
     }
 
     public void Roll()
@@ -75,6 +75,11 @@ public class Podium : MonoBehaviour
         if (_dice != null)
         {
             return;
+        }
+
+        foreach (var podium in Podiums)
+        {
+            podium.PodiumLocked = true;
         }
 
         var dice = GameObject.Instantiate(_dicePrefab, _diceSpawn.position, Quaternion.identity);
@@ -144,6 +149,11 @@ public class Podium : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (this.PodiumLocked)
+        {
+            return;
+        }
+
         var other = collision.gameObject;
 
         if (other == CharacterControl.Instance.gameObject)
