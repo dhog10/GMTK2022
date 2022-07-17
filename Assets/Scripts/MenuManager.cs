@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -28,6 +29,9 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField]
     private Image _blackoutPanel;
+
+    [SerializeField]
+    private TextMeshProUGUI _roundText;
 
     private Transform[] _spawns;
     private List<GameObject> _upDownFloatyDice = new List<GameObject>();
@@ -102,6 +106,26 @@ public class MenuManager : MonoBehaviour
         var vel = Mathf.Min(5f, buttonTarget.y - _startButton.transform.position.y);
         _startButton.transform.position += Vector3.up * vel * Time.deltaTime;
         _startButton.transform.localRotation = Quaternion.Euler(Mathf.Cos(Time.time * 0.3f) * 1f, Mathf.Cos(Time.time * 0.5f) * 5f, 0f);
+
+        if (RoundManager.Instance.Round > 0)
+        {
+            var text = "Round ";
+            for (var i = 0; i < Mathf.Floor(RoundManager.Instance.Round / 9); i++)
+            {
+                text += 9.ToString();
+            }
+
+            if (RoundManager.Instance.Round % 9 > 0)
+            {
+                text += (RoundManager.Instance.Round % 9).ToString();
+            }
+
+            _roundText.text = text;
+        }
+        else
+        {
+            _roundText.text = "";
+        }
 
         if (SceneManager.GetActiveScene().name == "menu")
         {
