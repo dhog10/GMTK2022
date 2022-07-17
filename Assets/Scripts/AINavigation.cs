@@ -21,6 +21,11 @@ public class AINavigation : MonoBehaviour
             _player = Object.FindObjectOfType<CharacterControl>()?.gameObject;
         }
 
+        if (_player == null)
+        {
+            return;
+        }
+
         var playerDistance = Vector3.Distance(_player.transform.position, transform.position);
 
         if (playerDistance < _targetDistanceMin)

@@ -68,7 +68,7 @@ public class MenuManager : MonoBehaviour
     {
         if (Instance != null && Instance != this)
         {
-            GameObject.DestroyImmediate(Instance.gameObject);
+            GameObject.DestroyImmediate(this.gameObject);
             return;
         }
 
@@ -263,6 +263,8 @@ public class MenuManager : MonoBehaviour
             SceneManager.LoadSceneAsync("menu", LoadSceneMode.Single);
             SoundManager.Instance.Music = SoundManagerMusic.Menu;
             Debug.Log("Return to menu");
+
+            _showDeathScreen = false;
         });
     }
 

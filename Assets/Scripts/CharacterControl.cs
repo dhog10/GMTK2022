@@ -171,6 +171,8 @@ public class CharacterControl : DiceCharacter
     {
         MenuManager.Instance.DeathScreen();
         RoundManager.Instance.FinishRound(false);
+
+        GameObject.Destroy(this.gameObject);
     }
 
     private void UpdateGuns()
