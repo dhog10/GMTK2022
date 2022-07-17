@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterControl : DiceCharacter
 {
+    public static CharacterControl Instance;
+
     [SerializeField]
     private List<DiceGun> _guns = new List<DiceGun>();
 
@@ -41,6 +43,13 @@ public class CharacterControl : DiceCharacter
     private Rigidbody _rb;
     private Vector3 _currentVelocity;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -63,6 +72,9 @@ public class CharacterControl : DiceCharacter
             }
         }
     }
+
+    public Damagable Damagable
+        => gameObject.GetComponent<Damagable>();
 
     public float CameraPitch { get; set; }
 
@@ -130,7 +142,7 @@ public class CharacterControl : DiceCharacter
 
         foreach (var gun in _guns)
         {
-            if (new Plane(Vector3.up, gun.transform.position).Raycast(mouseRay, out var enter))
+            if (new Plane(Vector3.up, _visualObject.transform.position).Raycast(mouseRay, out var enter))
             {
                 mouseHitpoint = mouseRay.GetPoint(enter);
                 mouseAimDirection = (mouseHitpoint - gun.transform.position).normalized;

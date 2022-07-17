@@ -38,6 +38,15 @@ public class DiceGun : MonoBehaviour
     [SerializeField]
     private float _recoilScaleSnapSpeed = 30f;
 
+    [SerializeField]
+    private bool _setDamage = true;
+
+    [SerializeField]
+    private float _damage;
+
+    [SerializeField]
+    private Team _team;
+
     private float _lastShoot;
     private float _recoilAmt;
     private float _recoilScaleAmt;
@@ -95,6 +104,12 @@ public class DiceGun : MonoBehaviour
 
         var projectileObject = GameObject.Instantiate(_projectilePrefab, this.transform.position, Quaternion.LookRotation(this.AimDirection.normalized));
         var projectile = projectileObject.GetComponent<Projectile>();
+        projectile.Team = _team;
+        if (_setDamage)
+        {
+            projectile.Damage = _damage;
+        }
+
         projectile.Shoot(this.AimDirection);
     }
 

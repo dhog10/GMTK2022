@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edd2efbadc1f96b4d988bbeaf3570b00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _roundsDuration: 60
-  _enemySpawnInterval: 10
+  _roundsDuration: 30
+  _enemySpawnInterval: 5
   _enemySpawnIntervalDecrease: 0.1
   _enemyInitialSpawnCount: 1
   _enemyInitialSpawnIncrease: 0.5

@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 5636066787342296892}
   - component: {fileID: 5636066787342296894}
   - component: {fileID: 5636066787342296882}
+  - component: {fileID: 5837604338967495626}
   m_Layer: 0
   m_Name: CharacterControl
   m_TagString: Untagged
@@ -177,6 +178,7 @@ MonoBehaviour:
   _visualCharacter: {fileID: 1700109242}
   _footstepPrefabs:
   - {fileID: 1509596595360472870, guid: 484bf3b6f7817af44ad3f894eff2a758, type: 3}
+  _footstepSoundLoop: {fileID: 0}
   _guns: []
   _gunsOrbitDistance: {x: 0.65, y: 0.72}
   _gunsOrbitHeight: {x: 0.8, y: 1}
@@ -225,6 +227,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &5837604338967495626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5636066787342296888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a95a5845a3811544a47c2e6bb433471, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _team: 1
 --- !u!1001 &350444490860302764
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -60,6 +60,9 @@ public class DiceCharacter : MonoBehaviour
 
     public Vector3 CurrentVelocity { get; private set; }
 
+    public GameObject VisualCharacter
+        => _visualCharacter;
+
     protected virtual void Update()
     {
         var velocity = this.CurrentVelocity;

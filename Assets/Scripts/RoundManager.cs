@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class RoundManager : MonoBehaviour
 {
+    public static RoundManager Instance;
+
     [SerializeField]
     private float _roundsDuration = 60f;
 
@@ -25,9 +27,20 @@ public class RoundManager : MonoBehaviour
 
     private float _lastEnemySpawn;
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            GameObject.DestroyImmediate(this.gameObject);
+            return;
+        }
+
+        Instance = this;
+    }
+
     private void Start()
     {
-        this.NextRound();
+        GameObject.DontDestroyOnLoad(this);
     }
 
     public int Round { get; set; }
@@ -58,31 +71,56 @@ public class RoundManager : MonoBehaviour
     {
         if (this.RoundActive)
         {
-            this.FinishRound();
+            this.FinishRound(false);
         }
 
         Debug.Log("StartRound");
 
+        SoundManager.Instance.Music = SoundManagerMusic.Action;
         this.RoundActive = true;
         this.Round = round;
         this.RoundStartTime = Time.time;
         this.RoundDuration = _roundsDuration;
 
-        var initialSpawn = (int)Mathf.Floor(_enemyInitialSpawnCount);
-        for (var i = 0; i < initialSpawn; i++)
+        StartCoroutine(this.Delay(4f, () =>
         {
-            this.SpawnEnemy(out _);
-        }
+            var initialSpawn = (int)Mathf.Floor(_enemyInitialSpawnCount);
+            for (var i = 0; i < initialSpawn; i++)
+            {
+                this.SpawnEnemy(out _);
+            }
+        }));
     }
 
-    public void FinishRound()
+    public void FinishRound(bool roundsContinue = true)
     {
-        Debug.Log("FinishRound");
+        if (!this.RoundActive)
+        {
+            return;
+        }
+
+        Debug.Log($"FinishRound {roundsContinue}");
 
         this.RoundActive = false;
+        SoundManager.Instance.Music = SoundManagerMusic.Menu;
 
         _enemySpawnInterval -= _enemySpawnInterval * _enemySpawnIntervalDecrease;
         _enemyInitialSpawnCount += _enemyInitialSpawnIncrease;
+
+        if (roundsContinue)
+        {
+            StartCoroutine(this.HealPlayer());
+            StartCoroutine(this.Delay(15f, () =>
+            {
+                this.NextRound();
+            }));
+        }
+    }
+
+    public void ResetRounds()
+    {
+        this.FinishRound(false);
+        this.Round = 0;
     }
 
     public IEnumerable<EnemySpawn> EnemySpawns
@@ -163,5 +201,28 @@ public class RoundManager : MonoBehaviour
 
         enemy = GameObject.Instantiate(spawnOption.EnemyPrefab, spawn.transform.position, Quaternion.identity);
         return false;
+    }
+
+    private IEnumerator Delay(float time, System.Action callback)
+    {
+        yield return new WaitForSeconds(time);
+
+        callback?.Invoke();
+    }
+
+    private IEnumerator HealPlayer()
+    {
+        var player = CharacterControl.Instance;
+        if (player == null)
+        {
+            yield return null;
+        }
+
+        while (player.Damagable.Health < player.Damagable.MaxHealth)
+        {
+            var incr = 1f / player.Damagable.MaxHealth * 200f;
+            player.Damagable.SetHealth(player.Damagable.Health + incr);
+            yield return new WaitForSeconds(0.05f);
+        }
     }
 }
