@@ -190,7 +190,7 @@ MonoBehaviour:
   _cameraStartYaw: -45
   _cameraRotationSpeed: 0
   _cameraSmoothSpeed: 8
-  _cameraDistance: 12
+  _cameraDistance: 14
   _gunsObject: {fileID: 4150395119822308399}
   _stats:
   - _id: hp
