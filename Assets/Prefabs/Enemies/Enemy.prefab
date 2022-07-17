@@ -434,6 +434,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy Gun
       objectReference: {fileID: 0}
+    - target: {fileID: 4393099954905442420, guid: 57ade79f244b2c04ebf74bbd3dffef30,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b9b77eb4377b4734dbab63b218b4b40d, type: 2}
     - target: {fileID: 7745650586202599772, guid: 57ade79f244b2c04ebf74bbd3dffef30,
         type: 3}
       propertyPath: m_RootOrder

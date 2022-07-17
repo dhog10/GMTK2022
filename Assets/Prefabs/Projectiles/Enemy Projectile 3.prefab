@@ -310,7 +310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 0
-  _speed: 22
+  _speed: 11
   _lifetime: 5
   _shootAudio: []
   _trail: {fileID: 3700818955750046305}
